@@ -15,7 +15,7 @@ require([
 
   // pages
   "modules/bars/bars",
-  "modules/demo/views"
+  "modules/todo/views"
 ],
 
 function(ns, $, Backbone) {
@@ -25,6 +25,12 @@ function(ns, $, Backbone) {
 
   // turn on debugging
   app.debug = false;
+
+  // more settings
+
+  // don't forget to whitelist it
+  // http://docs.phonegap.com/en/2.3.0/guide_whitelist_index.md.html#Domain%20Whitelist%20Guide
+  app.dataHost = 'http://10.2.24.101:3000'; 
 
   // regions
   // you could add regions like this app.addRegions({});

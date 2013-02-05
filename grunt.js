@@ -1,3 +1,5 @@
+var path = require('path');
+
 // This is the main application configuration file.  It is a Grunt
 // configuration file, which you can learn more about here:
 // https://github.com/cowboy/grunt/blob/master/docs/configuring.md
@@ -5,9 +7,9 @@
 module.exports = function(grunt) {
 
   // Needed vars to start
-  var phonegapLib = '/Development/phonegap_2.2.0/lib'
+  var phonegapLib = path.normalize('/Development/phonegap-2.3.0/lib')
     , reverseDomain = 'com.example'
-    , projectName = 'boilerplate';
+    , projectName = 'todo';
 
   // import tasks
   grunt.loadNpmTasks('grunt-contrib');
@@ -18,7 +20,9 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     meta: {
-      location: __dirname,
+      location: path.normalize(__dirname),
+      locationIOS: path.normalize(path.join(__dirname, 'ios')),
+      locationAndroid: path.normalize(path.join(__dirname, 'android')),
       reverseDomain: reverseDomain,
       projectName: projectName
     },
@@ -26,18 +30,22 @@ module.exports = function(grunt) {
     shell: {
       /* create phonegap projects */
       createIOS: {
-        command: './ios/bin/create <%= meta.location %>/ios/ <%= meta.reverseDomain %>.<%= meta.projectName %> <%= meta.projectName %>',
+        command: path.normalize('./ios/bin/create') + ' <%= meta.locationIOS %> <%= meta.reverseDomain %>.<%= meta.projectName %> <%= meta.projectName %>',
         stdout: true,
         execOptions: {
             cwd: phonegapLib
         }
       },
       createAndroid: {
-        command: './android/bin/create <%= meta.location %>/android/ <%= meta.reverseDomain %>.<%= meta.projectName %> <%= meta.projectName %>',
+        command: path.normalize('./android/bin/create') + ' <%= meta.locationAndroid %> <%= meta.reverseDomain %>.<%= meta.projectName %> <%= meta.projectName %>',
         stdout: true,
         execOptions: {
             cwd: phonegapLib
         }
+      },
+      copyToAndroidSim: {
+        command: 'adb install -r ' + path.normalize('android/bin/todo-debug.apk'),
+        stdout: true
       }
     },
 
@@ -50,10 +58,13 @@ module.exports = function(grunt) {
     /* phonegap cli bridge - iOS */
     iOS: {
       emulate: {
-        bin: 'emulate' /* brew install ios-sim */
+        bin: 'run' /* brew install ios-sim */
       },
       debug: {
-        bin: 'debug'
+        bin: 'build'
+      },
+      release: {
+        bin: 'release'
       },
       log: {
         bin: 'log'
@@ -63,19 +74,19 @@ module.exports = function(grunt) {
     /* phonegap cli bridge - Android */
     android: {
       emulate: {
-        bin: 'emulate'
+        bin: 'run'
       },
       debug: {
-        bin: 'debug'
+        bin: 'build'
+      },
+      release: {
+        bin: 'release'
       },
       log: {
         bin: 'log'
       },
       clean: {
         bin: 'clean'
-      },
-      BOOM: {
-        bin: 'BOOM'
       }
     },
 
@@ -109,7 +120,7 @@ module.exports = function(grunt) {
           "boiler/dist/": [
             "boiler/src/assets/img/**/*",
             "boiler/src/assets/font/**/*",
-            "boiler/src/assets/js/libs/cordova-2.2.0.js"
+            "boiler/src/assets/js/libs/cordova-2.3.0.js"
         ]}
       },
       genToDist: {
@@ -290,6 +301,7 @@ module.exports = function(grunt) {
   grunt.registerTask('android:dist', 'android:boil handlebars requirejs concat mincss copy:srcToDist copy:genToDist');
   grunt.registerTask('android:build', 'android:clean clean:android android:dist copy:distToAndroid android:debug');
   grunt.registerTask('android:watch', 'watch:android');
+  grunt.registerTask('android:copyToSim', 'shell:copyToAndroidSim');
  
   grunt.registerTask('build', 'iOS:build android:build');
 

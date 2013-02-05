@@ -12,8 +12,8 @@ app.get('/todos', function(req, res) {
   res.header('Pragma', 'no-cache');
   res.header('Expires', -1);
 
-  // just return the data object as json
-  res.json(data);
+  // just return the data object as json or jsonp
+  res.jsonp(data);
 });
 
 
