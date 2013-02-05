@@ -1,4 +1,7 @@
-juggler-todo
-============
+# What's this
 
-todo sample with tasks served from server
+Just a sample for getting started at kaba.
+
+# Visit the project website:
+
+[jugglerjs.com](http://jugglerjs.com)

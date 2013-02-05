@@ -1,0 +1,5 @@
+define([
+  'ratchet'
+],
+
+function() { return {}; });
