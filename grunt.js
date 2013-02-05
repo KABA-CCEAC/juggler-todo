@@ -243,6 +243,7 @@ module.exports = function(grunt) {
         files: {
           "boiler/dist/assets/css/index.css": [
             "boiler/src/assets/css/ratchet-1.0.0.css",
+            "boiler/src/assets/css/kesign-mobile-0.0.1.css.css",
             "boiler/src/assets/css/font-awesome-3.0.css",
             "boiler/src/assets/css/main.css"
           ]
