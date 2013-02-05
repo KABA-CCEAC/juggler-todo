@@ -1,5 +1,6 @@
 define([
-  './list'
+  './list',
+  './add'
 ],
 
 function(ns) {

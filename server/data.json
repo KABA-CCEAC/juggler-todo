@@ -1,5 +1,14 @@
 {
   "todos": [
-    { "id": "1", "title": "Add Server", "state": "done"}
+    {
+      "id": "f111bdf1-f1ed-b714-d7e6-b1fbbda532a0",
+      "title": "Add Server",
+      "state": "done"
+    },
+    {
+      "id": "44caee4-efbe-e7e9-cb9a-cd41338fb8f7",
+      "title": "Implement Add Feature",
+      "state": "open"
+    }
   ]
 }

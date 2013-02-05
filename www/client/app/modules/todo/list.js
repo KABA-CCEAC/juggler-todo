@@ -1,38 +1,13 @@
 define([
-  'namespace'
+  'namespace',
+  './data'
 ],
 
-function(ns) {
+function(ns, data) {
   var app = ns.app;
 
   // Create a new module
   var module = ns.module();
-
-  /**************
-  * MODEL
-  */
-  module.Models.Todo = ns.Model.extend();
-
-  module.Collections.Todos = ns.Collection.extend({
-
-    // where to load the data from
-    url: function() { return app.dataHost + "/todos"; }, 
-
-    model: module.Models.Todo,
-
-    // override the sync methode to use jsonp
-    // you could override this globally on bigger apps
-    // by overriding Backbone.sync
-    sync: function(method, model, options) {
-      options.dataType = "jsonp";  
-      return Backbone.sync(method, model, options);  
-    },
-
-    // parse the inner array todos
-    parse: function(data) {
-      return data.todos;
-    }
-  });
 
   /**************
   * CONTROLLER
@@ -47,7 +22,7 @@ function(ns) {
       if (todos) {
         todo.fetchNew();
       } else {
-        todos = new module.Collections.Todos();
+        todos = new data.Collections.Todos();
         todos.fetch({
           success: function() {
             app.store.set('todos', todos);
@@ -64,7 +39,9 @@ function(ns) {
           title: new app.Bars.Title({
             title: 'Todos',
             back: false,
-            next: false
+            next: 'add',
+            nextTarget: 'add',
+            nextClass: 'button'
           })
         }
       });
